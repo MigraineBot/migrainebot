@@ -1,1 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MigraineBot - AI-Powered Migraine Prevention</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .neuron {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #6366f1;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .signal {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: move 8s linear infinite;
+        }
+
+        .connection {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #6366f1, transparent);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        @keyframes move {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(100px, -50px); }
+            50% { transform: translate(-50px, 100px); }
+            75% { transform: translate(-100px, -100px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid #333;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #6366f1;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #6366f1;
+        }
+
+        /* CTA Button Styles */
+        .cta-button {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            border: 2px solid #6366f1;
+            color: #6366f1;
+        }
+
+        .cta-secondary:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero .description {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Sections */
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #6366f1;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #6366f1;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .number-badge {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .number-badge:hover {
+            transform: scale(1.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            border-left: 4px solid #6366f1;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author {
+            color: #6366f1;
+            font-weight: bold;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form select {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #333;
+            background: #222;
+            color: white;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .contact-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Pricing Grid */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            border-color: #6366f1;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-card .period {
+            color: #cccccc;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-card ul {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-card li {
+            margin-bottom: 0.5rem;
+            color: #cccccc;
+        }
+
+        .pricing-card .highlight {
+            border: 2px solid #6366f1;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            background: #111111;
+            padding: 3rem 2rem 1rem;
+            border-top: 1px solid #333;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #6366f1;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: #cccccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #6366f1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #888;
+        }
+
+        /* Cookie Banner */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(17, 17, 17, 0.95);
+            padding: 1rem 2rem;
+            border-top: 1px solid #333;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .cookie-banner.hidden {
+            display: none;
+        }
+
+        .cookie-text {
+            flex: 1;
+            margin-right: 1rem;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cookie-accept, .cookie-decline, .cookie-privacy, .cookie-imprint {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cookie-decline {
+            background: transparent;
+            border: 1px solid #6366f1;
+            color: #6366f1;
+        }
+
+        .cookie-privacy, .cookie-imprint {
+            background: transparent;
+            border: 1px solid #6366f1;
+            color: #6366f1;
+        }
+
+        .cookie-decline:hover, .cookie-privacy:hover, .cookie-imprint:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #6366f1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cookie-banner {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg" id="animatedBg"></div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">MigraineBot</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#about-us">About Us</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#contact-us">Contact Us</a>
+            </div>
+            <a href="#" class="cta-button" onclick="openModal('signup')">Get Started</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Predict Migraines Before They Start</h1>
+        <div class="subtitle">The World's First AI-Powered Migraine Prevention Platform</div>
+        <div class="description">
+            MigraineBot connects with your wearables and continuously analyzes your health data to predict migraine triggers and send personalized early warnings.
+        </div>
+        <div class="hero-cta">
+            <a href="#" class="cta-button" onclick="openModal('signup')">Try for Free</a>
+            <a href="#" class="cta-button cta-secondary" onclick="openModal('demo')">Watch Demo</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <h2>Why MigraineBot?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>AI-Powered Prediction</h3>
+                <p>Our advanced AI analyzes your sleep patterns, heart rate, and environmental data to predict migraines with 84% accuracy.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⌚</div>
+                <h3>Wearable Integration</h3>
+                <p>Compatible with Apple Watch, Fitbit, Oura Ring, and other leading wearables for seamless data collection.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Real-Time Alerts</h3>
+                <p>Receive personalized alerts before a migraine occurs, along with tailored prevention strategies.</p>
+            </div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">84%</div>
+                <div>Prediction Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1B+</div>
+                <div>Affected Worldwide</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">73%</div>
+                <div>Users Feel Better</div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="#" class="cta-button" onclick="openModal('features')">Discover All Features</a>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section" id="how-it-works">
+        <h2>How It Works</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><span class="number-badge">1</span></div>
+                <h3>Connect Your Wearable</h3>
+                <p>Pair your Apple Watch, Fitbit, or Oura Ring with MigraineBot in seconds.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><span class="number-badge">2</span></div>
+                <h3>AI Learns Your Patterns</h3>
+                <p>Our AI analyzes your sleep, heart, and stress data to identify your unique migraine triggers.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><span class="number-badge">3</span></div>
+                <h3>Receive Predictions</h3>
+                <p>Get personalized alerts and prevention recommendations directly to your smartphone.</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="#" class="cta-button" onclick="openModal('demo')">Try Now</a>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="section" id="about-us">
+        <h2>About Us</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Our Mission</h3>
+                <p>At MigraineBot, we aim to empower individuals to take control of their migraines through cutting-edge AI technology and data-driven insights.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Our Team</h3>
+                <p>Founded by a team of neurologists, data scientists, and engineers passionate about improving quality of life for migraine sufferers.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Our Vision</h3>
+                <p>To create a world where migraines are predictable and preventable, allowing everyone to live their best life free from pain.</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="#" class="cta-button" onclick="openModal('about')">Learn More</a>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="section" id="testimonials">
+        <h2>What Our Users Say</h2>
+        <div class="testimonial">
+            <div class="testimonial-text">
+                "Finally, something that warns me before the pain starts! MigraineBot has changed my life."
+            </div>
+            <div class="testimonial-author">- Sarah M., 34, Marketing Manager</div>
+        </div>
+        <div class="testimonial">
+            <div class="testimonial-text">
+                "The predictions are incredibly accurate. I can finally plan my migraine days better."
+            </div>
+            <div class="testimonial-author">- Dr. N. A. Al-Dahbali, Neurologist</div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="#" class="cta-button" onclick="openModal('testimonials')">More Testimonials</a>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="section" id="pricing">
+        <h2>Choose Your Plan</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Free</h3>
+                <div class="price">$0</div>
+                <div class="period">Forever</div>
+                <ul>
+                    <li>✅ Basic Migraine Tracking</li>
+                    <li>✅ Limited Wearable Integration</li>
+                    <li>❌ No AI Predictions</li>
+                    <li>❌ No Personalized Alerts</li>
+                    <li>❌ No Detailed Analytics</li>
+                </ul>
+                <a href="#" class="cta-button" onclick="openModal('signup')" style="width: 100%;">Get Started</a>
+            </div>
+            <div class="pricing-card highlight">
+                <h3>Basic</h3>
+                <div class="price">$5</div>
+                <div class="period">per Month</div>
+                <ul>
+                    <li>✅ AI-Powered Prediction</li>
+                    <li>✅ Wearable Integration</li>
+                    <li>✅ Basic Alerts</li>
+                    <li>✅ Weekly Reports</li>
+                    <li>❌ 24/7 Support</li>
+                </ul>
+                <a href="#" class="cta-button" onclick="openModal('signup')" style="width: 100%;">Choose Basic</a>
+            </div>
+            <div class="pricing-card">
+                <h3>Premium</h3>
+                <div class="price">$10</div>
+                <div class="period">per Month</div>
+                <ul>
+                    <li>✅ Advanced AI Prediction</li>
+                    <li>✅ Full Wearable Integration</li>
+                    <li>✅ Personalized Alerts</li>
+                    <li>✅ Detailed Analytics</li>
+                    <li>✅ 24/7 Support</li>
+                </ul>
+                <a href="#" class="cta-button" onclick="openModal('signup')" style="width: 100%;">Choose Premium</a>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="#" class="cta-button cta-secondary" onclick="openModal('trial')">Try Any Plan Free for 7 Days</a>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section class="section" id="contact-us">
+        <h2>Contact Us</h2>
+        <div class="contact-form">
+            <form>
+                <p>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Your Name">
+                </p>
+                <p>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="Your Email">
+                </p>
+                <p>
+                    <label for="subject">Subject</label>
+                    <select id="subject" name="subject">
+                        <option value="general">General Inquiry</option>
+                        <option value="support">Technical Support</option>
+                        <option value="billing">Billing Questions</option>
+                        <option value="partnership">Partnership Opportunities</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required placeholder="Your Message"></textarea>
+                </p>
+                <button type="submit" class="cta-button" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MigraineBot</h3>
+                <p>The Future of Migraine Prevention</p>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <a href="#" onclick="openModal('privacy')">Privacy Policy</a>
+                <a href="#" onclick="openModal('terms')">Terms of Service</a>
+                <a href="#" onclick="openModal('imprint')">Imprint</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <a href="mailto:info@migrainebot.com">info@migrainebot.com</a>
+                <a href="tel:+49123456789">+49 123 456 789</a>
+            </div>
+            <div class="footer-section">
+                <h3>Social Media</h3>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 MigraineBot. All Rights Reserved. | Developed by Freddy Francis & Arjun Kalliyath</p>
+        </div>
+    </footer>
+
+    <!-- Cookie Banner -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-text">
+            This website uses cookies to provide you with the best possible experience. By using our website, you consent to the use of cookies.
+        </div>
+        <div class="cookie-buttons">
+            <button class="cookie-accept" onclick="acceptCookies()">Accept</button>
+            <button class="cookie-decline" onclick="declineCookies()">Decline</button>
+            <button class="cookie-privacy" onclick="openModal('privacy')">Privacy Policy</button>
+            <button class="cookie-imprint" onclick="openModal('imprint')">Imprint</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">×</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Animated Background
+        function createAnimatedBackground() {
+            const bg = document.getElementById('animatedBg');
+            
+            // Create neurons
+            for (let i = 0; i < 20; i++) {
+                const neuron = document.createElement('div');
+                neuron.className = 'neuron';
+                neuron.style.left = Math.random() * 100 + '%';
+                neuron.style.top = Math.random() * 100 + '%';
+                neuron.style.animationDelay = Math.random() * 2 + 's';
+                bg.appendChild(neuron);
+            }
+            
+            // Create signals
+            for (let i = 0; i < 15; i++) {
+                const signal = document.createElement('div');
+                signal.className = 'signal';
+                signal.style.left = Math.random() * 100 + '%';
+                signal.style.top = Math.random() * 100 + '%';
+                signal.style.animationDelay = Math.random() * 8 + 's';
+                bg.appendChild(signal);
+            }
+            
+            // Create connections
+            for (let i = 0; i < 10; i++) {
+                const connection = document.createElement('div');
+                connection.className = 'connection';
+                connection.style.left = Math.random() * 100 + '%';
+                connection.style.top = Math.random() * 100 + '%';
+                connection.style.width = Math.random() * 200 + 50 + 'px';
+                connection.style.transform = `rotate(${Math.random() * 360}deg)`;
+                connection.style.animationDelay = Math.random() * 3 + 's';
+                bg.appendChild(connection);
+            }
+        }
+
+        // Cookie Banner
+        function acceptCookies() {
+            document.getElementById('cookieBanner').classList.add('hidden');
+            localStorage.setItem('cookiesAccepted', 'true');
+        }
+
+        function declineCookies() {
+            document.getElementById('cookieBanner').classList.add('hidden');
+            localStorage.setItem('cookiesAccepted', 'false');
+        }
+
+        // Modal
+        function openModal(type) {
+            const modal = document.getElementById('modal');
+            const content = document.getElementById('modalContent');
+            
+            let modalContent = '';
+            
+            switch(type) {
+                case 'signup':
+                    modalContent = `
+                        <h2>Sign Up Now</h2>
+                        <p>Join over 10,000 satisfied users who successfully manage their migraines.</p>
+                        <form>
+                            <p>Name: <input type="text" required style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #333; background: #222; color: white; border-radius: 5px;"></p>
+                            <p>Email: <input type="email" required style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #333; background: #222; color: white; border-radius: 5px;"></p>
+                            <p>Phone: <input type="tel" style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #333; background: #222; color: white; border-radius: 5px;"></p>
+                            <p>Wearable Type: 
+                                <select style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #333; background: #222; color: white; border-radius: 5px;">
+                                    <option>Apple Watch</option>
+                                    <option>Fitbit</option>
+                                    <option>Oura Ring</option>
+                                    <option>Garmin</option>
+                                    <option>Other</option>
+                                </select>
+                            </p>
+                            <button type="submit" class="cta-button" style="width: 100%; margin-top: 1rem;">Register for Free</button>
+                        </form>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #888;">
+                            ✅ 7 Days Free Trial<br>
+                            ✅ Cancel Anytime<br>
+                            ✅ No Setup Fee
+                        </p>
+                    `;
+                    break;
+                case 'demo':
+                    modalContent = `
+                        <h2>Request a Personal Demo</h2>
+                        <p>Schedule a 15-minute demo with our expert team to explore MigraineBot's features.</p>
+                        <form>
+                            <p>Name: <input type="text" required style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #333; background: #222; color: white; border-radius: 5px;"></p>
+                            <p>Email: <input type="email" required style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #333; background: #222; color: white; border-radius: 5px;"></p>
+                            <p>Company: <input type="text" style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #333; background: #222; color: white; border-radius: 5px;"></p>
+                            <p>Preferred Time: 
+                                <select style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #333; background: #222; color: white; border-radius: 5px;">
+                                    <option>Morning (9-12 AM)</option>
+                                    <option>Midday (12-3 PM)</option>
+                                    <option>Afternoon (3-6 PM)</option>
+                                    <option>Evening (6-8 PM)</option>
+                                </select>
+                            </p>
+                            <button type="submit" class="cta-button" style="width: 100%; margin-top: 1rem;">Request Demo</button>
+                        </form>
+                    `;
+                    break;
+                case 'features':
+                    modalContent = `
+                        <h2>All Features in Detail</h2>
+                        <div style="text-align: left;">
+                            <h3>🧠 AI-Powered Prediction</h3>
+                            <ul>
+                                <li>84% prediction accuracy based on clinical studies</li>
+                                <li>Machine learning adapts to your individual patterns</li>
+                                <li>Continuous improvement through more data</li>
+                            </ul>
+                            
+                            <h3>⌚ Wearable Integration</h3>
+                            <ul>
+                                <li>Apple Watch (all models)</li>
+                                <li>Fitbit (Versa, Charge, Sense)</li>
+                                <li>Oura Ring (Generation 2 & 3)</li>
+                                <li>Garmin (Forerunner, Vivosmart)</li>
+                            </ul>
+                            
+                            <h3>📊 Detailed Analytics</h3>
+                            <ul>
+                                <li>Personalized trigger analysis</li>
+                                <li>Weekly and monthly reports</li>
+                                <li>Trend and pattern recognition</li>
+                            </ul>
+                        </div>
+                        <button onclick="openModal('signup')" class="cta-button" style="width: 100%; margin-top: 1rem;">Get Started</button>
+                    `;
+                    break;
+                case 'about':
+                    modalContent = `
+                        <h2>About MigraineBot</h2>
+                        <div style="text-align: left;">
+                            <p>MigraineBot was founded in 2023 by Freddy Francis and Arjun Kalliyath, with a mission to revolutionize migraine management through artificial intelligence.</p>
+                            <h3>Our Story</h3>
+                            <p>After years of witnessing the impact of migraines on friends and family, our founders combined their expertise in AI and healthcare to create a solution that empowers users to anticipate and prevent migraines.</p>
+                            <h3>Our Values</h3>
+                            <ul>
+                                <li>Innovation: Pushing the boundaries of technology to improve lives.</li>
+                                <li>Empathy: Understanding and addressing the needs of migraine sufferers.</li>
+                                <li>Excellence: Committing to the highest standards in everything we do.</li>
+                            </ul>
+                        </div>
+                        <button onclick="openModal('signup')" class="cta-button" style="width: 100%; margin-top: 1rem;">Join Our Mission</button>
+                    `;
+                    break;
+                case 'testimonials':
+                    modalContent = `
+                        <h2>More Testimonials</h2>
+                        <div class="testimonial">
+                            <div class="testimonial-text">"MigraineBot has reduced my migraine days by 70%. I can finally plan long-term again."</div>
+                            <div class="testimonial-author">- Lisa K., 29, Software Developer</div>
+                        </div>
+                        <div class="testimonial">
+                            <div class="testimonial-text">"The predictions are so accurate that I can take preventive measures before the migraine even starts."</div>
+                            <div class="testimonial-author">- Michael R., 42, Project Manager</div>
+                        </div>
+                        <div class="testimonial">
+                            <div class="testimonial-text">"As a doctor, I'm impressed by the scientific foundation of the app. I recommend it to my patients."</div>
+                            <div class="testimonial-author">- Dr. Anna Schmidt, Neurologist</div>
+                        </div>
+                        <button onclick="openModal('signup')" class="cta-button" style="width: 100%; margin-top: 1rem;">Try Now</button>
+                    `;
+                    break;
+                case 'trial':
+                    modalContent = `
+                        <h2>Try 7 Days Free</h2>
+                        <p>Test MigraineBot for 7 days completely free and without obligation.</p>
+                        <form>
+                            <p>Name: <input type="text" required style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #333; background: #222; color: white; border-radius: 5px;"></p>
+                            <p>Email: <input type="email" required style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #333; background: #222; color: white; border-radius: 5px;"></p>
+                            <button type="submit" class="cta-button" style="width: 100%; margin-top: 1rem;">Start Free Trial</button>
+                        </form>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #888;">
+                            ✅ No Credit Card Required<br>
+                            ✅ Automatic Cancellation After 7 Days<br>
+                            ✅ Full Access to All Features
+                        </p>
+                    `;
+                    break;
+                case 'privacy':
+                    modalContent = `
+                        <h2>Privacy Policy</h2>
+                        <div style="text-align: left; max-height: 400px; overflow-y: auto;">
+                            <h3>1. Controller</h3>
+                            <p>MigraineBot GmbH<br>
+                            Sample Street 123<br>
+                            12345 Sample City<br>
+                            Germany<br>
+                            Email: privacy@migrainebot.com</p>
+                            
+                            <h3>2. Collection and Storage of Personal Data</h3>
+                            <p>We collect and process personal data only in accordance with legal requirements. This includes:</p>
+                            <ul>
+                                <li>Contact details (name, email, phone number)</li>
+                                <li>Health data from wearables (encrypted)</li>
+                                <li>App usage data</li>
+                            </ul>
+                            
+                            <h3>3. Purpose of Data Processing</h3>
+                            <p>Data processing is carried out for:</p>
+                            <ul>
+                                <li>Providing our services</li>
+                                <li>Migraine prediction and prevention</li>
+                                <li>Improving our algorithms</li>
+                            </ul>
+                            
+                            <h3>4. Data Protection</h3>
+                            <p>Your health data is encrypted to the highest security standards and never shared with third parties.</p>
+                            
+                            <h3>5. Your Rights</h3>
+                            <p>You have the right to access, rectification, erasure, restriction of processing, and data portability.</p>
+                        </div>
+                    `;
+                    break;
+                case 'terms':
+                    modalContent = `
+                        <h2>Terms of Service</h2>
+                        <div style="text-align: left; max-height: 400px; overflow-y: auto;">
+                            <h3>§1 Scope</h3>
+                            <p>These Terms of Service apply to all contracts between MigraineBot GmbH and its customers.</p>
+                            
+                            <h3>§2 Subject of the Contract</h3>
+                            <p>The subject of the contract is the provision of an AI-powered migraine prevention platform as a Software-as-a-Service (SaaS).</p>
+                            
+                            <h3>§3 Contract Conclusion</h3>
+                            <p>The contract is concluded upon registration and confirmation of the email address.</p>
+                            
+                            <h3>§4 Term and Termination</h3>
+                            <p>The contract is concluded for an indefinite period. Termination is possible at any time at the end of the current billing month.</p>
+                            
+                            <h3>§5 Prices and Payment Terms</h3>
+                            <p>Current prices are available on our website. Payment is made monthly in advance.</p>
+                            
+                            <h3>§6 Liability</h3>
+                            <p>MigraineBot is a tool for migraine prevention. Medical decisions should always be made in consultation with a doctor.</p>
+                            
+                            <h3>§7 Data Protection</h3>
+                            <p>The processing of personal data is carried out in accordance with our Privacy Policy.</p>
+                        </div>
+                    `;
+                    break;
+                case 'imprint':
+                    modalContent = `
+                        <h2>Imprint</h2>
+                        <div style="text-align: left;">
+                            <p><strong>MigraineBot GmbH</strong></p>
+                            <p>Sample Street 123<br>
+                            12345 Sample City<br>
+                            Germany</p>
+                            
+                            <p><strong>Represented by:</strong><br>
+                            Managing Directors: Freddy Francis, Arjun Kalliyath</p>
+                            
+                            <p><strong>Contact:</strong><br>
+                            Phone: +49 123 456 789<br>
+                            Email: info@migrainebot.com</p>
+                            
+                            <p><strong>Register Entry:</strong><br>
+                            Register Court: Sample City District Court<br>
+                            Register Number: HRB 12345</p>
+                            
+                            <p><strong>VAT ID:</strong><br>
+                            VAT Identification Number pursuant to §27a VAT Act:<br>
+                            DE123456789</p>
+                            
+                            <p><strong>Supervisory Authority:</strong><br>
+                            Federal Institute for Drugs and Medical Devices (BfArM)<br>
+                            Kurt-Georg-Kiesinger-Allee 3<br>
+                            53175 Bonn</p>
+                            
+                            <p><strong>Dispute Resolution:</strong><br>
+                            The European Commission provides a platform for online dispute resolution (ODR): 
+                            <a href="https://ec.europa.eu/consumers/odr/" style="color: #6366f1;">https://ec.europa.eu/consumers/odr/</a></p>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            content.innerHTML = modalContent;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Initialize
+        window.onload = function() {
+            createAnimatedBackground();
+            
+            // Show cookie banner if not previously accepted/declined
+            if (!localStorage.getItem('cookiesAccepted')) {
+                document.getElementById('cookieBanner').style.display = 'flex';
+            }
+        };
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Form submission handling (dummy)
+        document.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your interest! We will get back to you shortly.');
+            closeModal();
+        });
+
+        // Analytics tracking (placeholder)
+        function trackEvent(eventName, eventData) {
+            console.log('Event tracked:', eventName, eventData);
+        }
+
+        // Track CTA clicks
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function() {
+                trackEvent('CTA_Click', {
+                    button_text: this.textContent,
+                    button_location: this.closest('section')?.id || 'header'
+                });
+            });
+        });
+
+        // Page load performance
+        window.addEventListener('load', function() {
+            const loadTime = performance.now();
+            console.log('Page loaded in:', loadTime, 'ms');
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections for scroll animations
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Add mobile menu button for small screens
+        if (window.innerWidth <= 768) {
+            const nav = document.querySelector('nav');
+            const menuButton = document.createElement('button');
+            menuButton.innerHTML = '☰';
+            menuButton.style.background = 'none';
+            menuButton.style.border = 'none';
+            menuButton.style.color = 'white';
+            menuButton.style.fontSize = '1.5rem';
+            menuButton.style.cursor = 'pointer';
+            menuButton.onclick = toggleMobileMenu;
+            nav.appendChild(menuButton);
+        }
+
+        // Lazy loading for performance
+        const lazyElements = document.querySelectorAll('.feature-card, .stat-card, .testimonial, .pricing-card');
+        
+        const lazyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('loaded');
+                    lazyObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        lazyElements.forEach(el => {
+            lazyObserver.observe(el);
+        });
+
+        // Add CSS for lazy loading
+        const style = document.createElement('style');
+        style.textContent = `
+            .feature-card, .stat-card, .testimonial, .pricing-card {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.5s ease, transform 0.5s ease;
+            }
+            .feature-card.loaded, .stat-card.loaded, .testimonial.loaded, .pricing-card.loaded {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Scroll to top functionality
+        const scrollToTopBtn = document.createElement('button');
+        scrollToTopBtn.innerHTML = '↑';
+        scrollToTopBtn.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        `;
+        
+        scrollToTopBtn.onclick = () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        
+        document.body.appendChild(scrollToTopBtn);
+
+        // Show/hide scroll to top button
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'block';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
